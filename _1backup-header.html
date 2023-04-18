@@ -1,0 +1,160 @@
+{% load static %}
+
+{% with request.resolver_match.url_name as view_url %}
+<!--Don't break the line in if statement, this will cause error -->
+{% if view_url != 'admin-dashboard' and view_url != 'dashboard_posts' and view_url != 'dashboard_tags' and view_url != 'dashboard_users' and view_url != 'dashboard_categories' and view_url != 'dashboard_category_posts' and view_url != 'dashboard_tag_posts' and view_url != 'dashboard_user_posts' %}
+<!-- navbar-->
+<header class="header">
+  <nav class="navbar navbar-expand-lg navbar-light py-1 index-forward bg-dark text-light">
+    <div class="container d-flex justify-content-center justify-content-lg-between align-items-center">
+      <ul class="list-inline small mb-0 text-dark d-none d-lg-block">
+        <li class="list-inline-item"><a class="reset-anchor" href="https://www.facebook.com"><i class="fab fa-facebook-f text-primary"></i></a></li>
+        <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-instagram text-primary"></i></a></li>
+        <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-linkedin text-primary"></i></a></li>
+      </ul>
+      <a class="navbar-brand" href="{% url 'home' %}"><img src="static\img\binblogger.png" alt="Blog.it" width="190"></a>
+      <!-- <span id="logo-text"><a href="{% url 'home' %}"></a>Blog.it</a></span> -->
+      <a class="reset-anchor text-small mb-0 h6 d-none d-lg-block" href="mailto:deep.buha@gmail.com">
+       <small><i class="far fa-envelope mr-2"></i>deep.buha@gmail.com</small> </a>
+    </div>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-dark border-top border-bottom border-dark bg-dark">
+    <div class="container">
+      <ul class="list-inline small mb-0 text-dark d-block d-lg-none">
+        <li class="list-inline-item"><a class="reset-anchor" href="facebook.com"><i class="fab fa-facebook-f"></i></a></li>
+        <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-instagram"></i></a></li>
+        <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-linkedin"></i></a></li>
+      </ul>
+      <!--toggle buttons-->
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="collapse navbar-collapse bg-dark " id="navbarSupportedContent">
+        <!-- Navbar link-->
+        <ul class="navbar-nav mx-auto align-items-center">
+          <li class="nav-item"><a class="nav-link {% if view_url == 'home' %}active{% endif %}"
+              href={% url 'home' %}>HOME</a></li>
+          <!-- Navbar link-->
+          <li class="nav-item"><a class="nav-link {% if view_url == 'blog' %}active{% endif %}"
+              href={% url 'blog' %}>BLOG</a></li>
+          <li class="nav-item"><a class="nav-link {% if view_url == 'authors' %}active{% endif %}"
+              href={% url 'authors' %}>AUTHORS</a></li>
+          <li class="nav-item"><a class="nav-link {% if view_url == 'contact' %}active{% endif %}"
+              href={% url 'contact' %}>CONTACT</a></li>
+          
+        </ul>
+        <span class="nav-item">
+        <a class="btn btn-outline-info btn-sm mr-2 btn-block" href="{% url 'add_post' %}">Add Post</a>
+        </span>
+        <!-- dropdown -->
+        <div class="navbar-nav">
+          <span class="nav-item dropdown d-block m-auto">
+            <a class="nav-link dropdown-toggle ml-3" id="pages" href="#" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false" style='color:#62cec2;'> 
+              {% if user.is_authenticated %}
+              <img src="{{request.user.profile.image.url}}" alt="profile" style='border-radius:50%;height:32px;width:30px;'>
+              {% else %}
+              <img src="{% static 'img/user_default.png' %}" alt="profile" style='border-radius:50%;height:30px;width:30px;'>
+              {% endif %} 
+              </a>
+            <div class="dropdown-menu mt-2" aria-labelledby="account">
+              {% if user.is_authenticated %}
+              <a class="dropdown-item" href="{% url 'profile_update' %}">Profile</a>
+              <a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a>
+              {% else %}
+              <a class="dropdown-item" href="{% url 'account_login' %}">Log In</a>
+              <a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a>
+              {% endif %}
+              {% if user.is_authenticated and user.is_superuser %}
+              <a class="dropdown-item" href="{% url 'admin-dashboard' %}"> Admin Panel</a>
+              {% endif %}
+              {% if user.is_authenticated %}
+              <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next">
+                <a class="dropdown-item" href="#">
+                  <button id="signOutBtn" type="submit"
+                    style='background: none!important;border: none;padding: 0!important;'>Logout</button>
+                </a>
+              </form>
+              {% endif %}
+            </div>
+          </span>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+{% else %}
+<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark flex-md-nowrap"
+  style='background-color: #000000!important;'>
+  <div class="container">
+    <a class="navbar-brand mr-5 pr-2" href="{% url 'admin-dashboard' %}"
+      style='background:none;box-shadow:none;'>Blog.it</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">
+            <span data-feather="globe"></span>
+            View Site
+          </a>
+        </li>
+        <li class="px-lg-2 nav-item {% if view_url == 'admin-dashboard' %}active{% endif %}">
+          <a class="nav-link" href='{% url 'admin-dashboard' %}'>{% if view_url == 'admin-dashboard' %}
+            <span data-feather="home"></span>
+            DASHBOARD
+            {% else %}
+            <span data-feather="home"></span>
+            Dashboard
+            {% endif %}
+          </a>
+        </li>
+        <li class="nav-item {% if view_url == 'dashboard_posts' %}active{% endif %}">
+          <a class="nav-link" href='{% url "dashboard_posts" %}'>{% if view_url == 'dashboard_posts' %}
+            <span data-feather="book-open"></span>
+            ALL POSTS
+            {% else %}
+            <span data-feather="book-open"></span>
+            All Posts
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+      <div class="navbar navbar-dark">
+        <div class="nav-item dropdown">
+          <a class=" nav-link dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <span data-feather="smile"></span>
+            Profile
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{% url 'profile_update' %}">Profile</a>
+            <div class="dropdown-divider"></div>
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next">
+                <a class="dropdown-item" href="#">
+                  <button id="signOutBtn" type="submit"
+                    style='background: none!important;border: none;padding: 0!important;'>Logout</button>
+                </a>
+              </form>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</nav>
+{% endif %}
+{% endwith %}
