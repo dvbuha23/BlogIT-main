@@ -1,0 +1,55 @@
+{% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width= device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+ <!-- New code -->
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="static/new/css/mdb.min.css" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="static/new/css/style.css" />
+ <!-- New code -->
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Lightbox CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    {% with request.resolver_match.url_name as view_url %}
+        {% if view_url != 'add_post' or view_url != 'update_post' %}
+            <!-- Google fonts-->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Satisfy&amp;display=swap">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+        {% endif %}
+        <!--Don't break the line in if statement, this will cause error -->
+        {% if view_url != 'admin-dashboard' and view_url != 'dashboard_posts' and view_url != 'dashboard_tags' and view_url != 'dashboard_users' and view_url != 'dashboard_categories' and view_url != 'dashboard_category_posts' and view_url != 'dashboard_tag_posts' and view_url != 'dashboard_user_posts' %}
+            <!-- stylesheet default-->
+            <link rel="stylesheet" href="{% static 'css/style-default.css' %}" id="theme-stylesheet">  
+
+        {% else %}
+        
+            <link href="{% static 'css/admin-site.css' %}" rel="stylesheet">
+        {% endif %}
+
+        {% if view_url == 'add_post' or view_url == 'update_post' %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/css/medium-editor.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor/5.23.3/css/themes/beagle.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+            <link href="https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'css/add_n_update_post.css' %}">
+        {% endif %}
+        {% if view_url == 'post-detail' %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css">
+            <link rel="stylesheet" href="{% static 'css/details_post.css' %}">
+        {% endif %}
+    {% endwith %}

@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load hitcount_tags %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<div id="carouselExampleIndicators" class="carousel carousel-light-caption-color pt-4 w-100" data-bs-ride="carousel" >
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active bg-dark" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="bg-dark"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class="bg-dark"></button>
+    </div>
+    <div class="carousel-inner ">
+      <div class="carousel-item active " data-bs-interval="1000">
+        <img src="static\img\silder1.jpg" class=" bg-center bg-cover mx-auto d-block w-50" alt="static\img\silder1.jpg">
+      </div>
+      <div class="carousel-item" data-bs-interval="20000">
+        <img src="static\img\silder2.jpg" class="bg-center bg-cover mx-auto d-block w-50" alt="static\img\silder1.jpg">
+      </div>
+      <div class="carousel-item">
+        <img src="static\img\leone-venter.jpg" class="bg-center bg-cover mx-auto d-block w-50" alt="static\img\silder1.jpg">
+      </div>
+    </div>
+    <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+      <!-- <span class="visually-hidden">Previous</span> -->
+    </button>
+    <button class="carousel-control-next text-light bg-dark" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <!-- <span class="carousel-control-next-icon " aria-hidden="true"></span> -->
+      <!-- <span class="">Next</span> -->
+    </button>
+  </div>
+  <hr class="bg-light">
+  <!-- Main post-->
+  {% if featured_post %}
+  <div  class=" text-center text-light">
+    <h4 class="mb-5"><strong>Latest posts</strong></h4>
+    <div class="row  mr-0 p-3">
+      <div class="col-lg-4 mt-4">
+        <div class="w-100">
+          <img class="bg-center w-100" style='height:auto; ' src={{featured_post.post_thumbnail.url}} alt="post_thumbnail">
+        </div>
+      </div>
+      <div class=" bg-dark col-lg-8 shadow-lg p-4 mb-5 mt-4 ">
+        <!-- <ul >
+          <li class="list-inline-item mr-4">
+            {% for c in featured_post.categories.all %}
+              {% if forloop.counter == 1 or forloop.counter == 2%}
+                <a class="btn font-weight-bold" href={{c.get_absolute_url}} > {{ c }}  </a>
+              {% endif %}
+            {% endfor %}
+          </li>
+          <li class="list-inline-item mx-3">
+          <a class="text-uppercase meta-link font-weight-bold" href="{% url 'user_posts' username=featured_post.author.username %}">
+            <i class="fas fa-user-tie"></i> {{featured_post.author}}
+            </a>
+            </li>
+          <li class="list-inline-item mx-3">
+          <p class="text-uppercase meta-link font-weight-bold">
+            <i class="fas fa-calendar-alt"></i> {{featured_post.created_on|date:"F d, Y"}}</p>
+          </li>
+          <li class="list-inline-item mx-2">
+              <p class="text-uppercase meta-link font-weight-normal">
+                  <i class="far fa-eye"></i></i> {% get_hit_count for featured_post %}
+              </p>
+          </li> 
+        </ul> -->
+          <h1 class="h2 mb-3"> <a class="reset-anchor text-heading text-capitalize" href={{featured_post.get_absolute_url}}>{{featured_post.title}}</a></h1>
+          <ul >
+            <li class="list-inline-item mx-2">{% for c in featured_post.categories.all %}
+            {% if forloop.counter == 1 or forloop.counter == 2%}
+              <a class=" meta-link font-weight-bold" href={{c.get_absolute_url}} > {{ c }}  </a>
+            {% endif %}
+          {% endfor %}</li>
+          <li class="list-inline-item mx-2">
+            <a class="text-capitalize meta-link font-weight-bold" href="{% url 'user_posts' username=featured_post.author.username %}">
+              {{featured_post.author}}
+              </a>
+              </li>
+            <li class="list-inline-item mx-3">
+            <p class="text-uppercase meta-link font-weight-bold"> {{featured_post.created_on|date:"M, d, y"}}</p>
+            </li>
+            <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="far fa-eye"></i></i> {% get_hit_count for featured_post %}
+                </p>
+            </li>
+        </ul>
+          <p class=" text-muted text-warning ml-5 mr-5 text-justify">{{featured_post.content|striptags|truncatechars:220}}</p>
+          <a class="btn btn-sm btn-danger " href={{featured_post.get_absolute_url}}><span>Read more </span></a>
+      </div>
+    </div>      
+      
+  {% endif %}
+
+  <!-- Top categories-->
+  <section class="pb-2 pt-2 ">
+    <div class="border-bottom border bg-dark border-top p-3">
+      <marquee>
+      <div class="row ">
+        <!-- {% for cat in categories %}
+        
+        <div class="col-lg-1 mb-3 ml-5">
+          {% if forloop.counter <= 7 %}
+          <a 
+              href={{cat.get_absolute_url}} class="btn btn-primary ">
+                <span class="">{{cat}}</span>
+              </a>
+              {% endif %}
+            </div>
+        {% endfor %} -->
+        {% for cat in categories %}
+          {% if forloop.counter == 1 %}
+            <div class="col-lg-3 mb-4 mb-lg-0">
+              <a 
+              href={{cat.get_absolute_url}}>
+                <span class="btn btn-primary font-weight-bold pr-5 pl-5 w-100">{{cat}}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if forloop.counter == 2 %}
+            <div class="col-lg-3 mb-4 mb-lg-0">
+              <a   href={{cat.get_absolute_url}}>
+                <span class="btn btn-primary pr-5 pl-5 w-100 font-weight-bold">{{ cat }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if forloop.counter == 3 %}
+            <div class="col-lg-3 mb-4 mb-lg-0"><a  href={{cat.get_absolute_url}}><span
+            class="btn btn-primary pr-5 pl-5 w-100 font-weight-bold">{{cat}}</span></a></div>
+          {% endif %}
+          {% if forloop.counter == 4 %}
+          <div class="col-lg-3 mb-4 mb-lg-0"><a  href={{cat.get_absolute_url}}><span
+          class="btn btn-primary pr-5 pl-5 w-100 font-weight-bold">{{cat}}</span></a></div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </marquee>
+    </div>
+  </section>
+
+  {% include 'alert_msg.html' with messages=messages %}
+
+  <!-- Blog listing-->
+  <section class="p-4">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-9 mb-5 mb-lg-0">
+          <h2 class='text-dark shadow-lg p-3 mb-5 bg-body rounded mb-5  pb-2'> POPULAR POSTS</h2>
+          <!-- popular posts listing 2 grid-->
+          {% include 'blog/post_listing.html' with posts=popular_post %}
+        </div>
+
+        <!-- Blog sidebar-->
+        <div class="col-lg-3">
+          {% include 'sidebar.html' with latest_post=latest_post categories=categories top3_categories=top3_categories tags=tags %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
